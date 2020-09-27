@@ -1,0 +1,145 @@
+---
+title: "The continuing growth of criminal rates in hot spots in Toronto has become an emerging problem for public safety."
+author: "Ming Hui Chen"
+date: 2020-09-27T21:13:14-05:00
+categories: ["R"]
+tags: ["R Markdown", "plot", "regression"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+
+library(tidyverse)
+
+install.packages("opendatatoronto")
+library(opendatatoronto)
+data_packages <- search_packages("Neighbourhood Crime Rates")
+data_resources <- data_packages %>%
+  list_package_resources()
+data_statistics <- data_resources %>%
+  get_resource()
+
+install.packages("skimr")
+library(skimr)
+
+skimr::skim(data_statistics)
+```
+# Authorship 
+
+The paper is written by Ming Hui Chen. 
+
+# Abstract
+
+Criminal rates in a neighborhood are closely associated with public safety. In this paper, we investigate the criminal rates in Toronto by neighborhoods, which is an observational study conducting by Toronto Police Services and released on September 18th, 2020. We found that a hot spot is more likely to have positive growth of criminal rates year by year, while the criminal counts of safer neighborhood are most likely declining. Our findings suggests the importance to enforce the police force to further control the criminal rates in those neighborhoods and to provide public safety guidelines for all residents in Toronto.
+
+# Introduction
+
+Settling down in a nice and safe neighborhood is essential for all of us. Public safety is the first priority among all other factors in our daily life. In that case, criminal rates are the most straight-forward numerical values to evaluate if the community is safe or not. Within all categories of crimes, we should also pay more attention to the violate crimes, not only because of the damages caused by violate crimes, but also the frequencies.
+
+In this paper, counts for the most commonly reported crimes: Assaults and Break and Enter, are used to analyze the overall criminal rates among 140 neighborhoods in Toronto. The packages skimr and tidyverse are used in this time for R in order to plot, extract and calculate data. Application of ggplot (using tidyverse) shows the annual changes in percentages of crime counts for each neighborhood against the criminal rates in that specific neighborhood.
+
+# Data Discussion 
+This paper explores the dataset called Neighborhood Crime Rates, found on Toronto Open Data. The observational study published by Toronto Police Services collects criminal rates for each neighborhood from 2014 to 2019. The categories of crimes included in the dataset are Assault, Auto Theft, Break and Enter, Robbery, Theft Over and Homicide. With data from the 2016 census population, five-year averages and criminal rates per 100,000 people for each neighborhood are also available in the dataset. 
+
+As it is an observational study conducting by the police department, the annually-updated dataset are the best we can get to fully understand and visualize the differences in criminal rates crossing numerous neighborhoods and the changes in counts for this decade. 
+
+# Graph 
+```{r}
+
+data_statistics %>% 
+  ggplot(aes(x = Assault_Rate_2019, y = Assault_CHG)) +
+  geom_point()+
+  labs(x = "Rate of assaults for 2019 per 100,000 population",
+       y = "Percentage Change in assault counts from 2018-2019",
+       title = "Figure 1: Distribution of assault counts:
+       rate of assaults per 100,000 individuals vs percentage change in counts",
+       caption = "Source: Open Data Toronto, 2020.")
+
+data_statistics %>% 
+  filter(Assault_Rate_2019 > 876) %>% 
+  ggplot(aes(x = Assault_Rate_2019, y = Assault_CHG)) +
+  geom_point()+
+  labs(x = "Rate of assaults for 2019 per 100,000 population",
+       y = "Percentage Change in assault counts from 2018-2019",
+       title = "Figure 2: Distribution of assault counts for fourth quarter:
+       rate of assaults per 100,000 population vs % change in counts",
+       caption = "Source: Open Data Toronto, 2020.")
+
+data_statistics %>% 
+  ggplot(aes(x = BreakandEnter_Rate_2019, y = BreakandEnter_CHG)) +
+  geom_point()+
+  labs(x = "Rate of Break and Enter for 2019 per 100,000 population",
+       y = "Percentage Change in break and enter counts from 2018-2019",
+       title = "Figure 3: Distribution of break and enter counts:
+       rate of counts per 100,000 individuals vs percentage change in counts",
+       caption = "Source: Open Data Toronto, 2020.")
+
+data_statistics %>% 
+  filter(BreakandEnter_Rate_2019 > 361) %>% 
+  ggplot(aes(x = BreakandEnter_Rate_2019, y = BreakandEnter_CHG)) +
+  geom_point()+
+  labs(x = "Rate of Break and Enter for 2019 per 100,000 population",
+       y = "Percentage Change in break and enter counts from 2018-2019",
+       title = "Figure 4: Distribution of break and enter counts:
+       rate of counts per 100,000 individuals vs percentage change in counts",
+       caption = "Source: Open Data Toronto, 2020.")
+```
+
+# Graph Discussion
+```{r, include=FALSE}
+a<-
+  data_statistics %>% 
+  filter(Assault_Rate_2019 > 876)
+b <-
+  a %>% 
+  filter(Assault_CHG < 0.0)
+nrow(b)/nrow(a)
+
+r <-
+  data_statistics %>% 
+  filter(Assault_Rate_2019 < 876)
+w <-
+  r %>% 
+  filter(Assault_CHG > 0.0)
+nrow(w)/nrow(r)
+
+c<-
+  data_statistics %>% 
+  filter(BreakandEnter_Rate_2019 > 361)
+d <-
+  c %>% 
+  filter(BreakandEnter_CHG < 0.0)
+nrow(d)/nrow(c)
+
+e <-
+  data_statistics %>% 
+  filter(BreakandEnter_Rate_2019 < 361)
+f <-
+  e %>% 
+  filter(BreakandEnter_CHG > 0.0)
+nrow(f)/nrow(e)
+
+
+```
+
+As shown in Figure 1, the majority of neighborhoods with a negative change in percentage assault counts from 2018 to 2019 also have a low rate of assaults for 2019 per 100,000 individuals. Moreover, when we only included the neighborhoods within in the fourth quarter of 2019 assault rate per 100,000 (the values for quartiles are determined using skimr in R) and found that the percentage of neighborhoods with a decline in assault cases is only 26% (Figure 2). In contract, 61% of the excluded neighborhoods from Figure 2 (indicating lower violate criminal rates) have decreased annual assault counts. 
+
+Similarly, the ggplot for Break and Enter also shows that the neighborhoods with a high criminal rate (the neighborhoods reported more than 361 cases) in 2019 also have larger chances to experience a positive growth of percentage changes in criminal rates from 2018 to 2019, showing that the crimes in these neighborhoods are not under controlled and so that, keeping growing fast (Figure 3 & 4).
+
+The main findings in our paper are consistent with the conclusions by Office of Policy Development and Research (PD&R). Even though almost half of the neighborhoods in Toronto are showing a decline in the annual criminal counts and a negative growth of changes in criminal rates, several particular neighborhoods have become, and are continuing growing to be hot spots for the crimes.
+
+# Weaknesses and Next Steps
+
+Even though data from this observational study has indicated that violate crimes are geographically concentrated in particular neighborhoods and the situations are still worsening, there are several aspects that should be improved in order to get a more precise analysis. First of all, as the population census was completed by 2016, the changes in population before and after the year of 2016 are not considered in this study. Immigration and work transfer could cause significant changes in population. 
+
+Secondly, averages in income, ethics and races are not included in this study. As indicated by PD&R, racial and ethnic minorities and low-income people are all unfairly exposure to violent crime damages. Our next steps are to collect those dataset and then compare with the, in order to make suggestions of future social working and public safety guidelines.
+
+# References
+
+- R Core Team (2020). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL, https://www.R-project.org/.
+- Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686. URL, https://doi.org/10.21105/joss.01686.
+- Sharla Gelfand (2020). opendatatoronto: Access the City of Toronto Open Data Portal. URL, https://sharlagelfand.github.io/opendatatoronto/, https://github.com/sharlagelfand/opendatatoronto/.
+- Elin Waring, Michael Quinn, Amelia McNamara, Eduardo Arino de la Rubia, Hao Zhu and Shannon Ellis (2020). skimr: Compact and Flexible Summaries of Data. URL, https://docs.ropensci.org/skimr (website), https://github.com/ropensci/skimr.
+- JJ Allaire and Yihui Xie and Jonathan McPherson and Javier Luraschi and Kevin Ushey and Aron Atkins and Hadley Wickham and Joe Cheng and Winston Chang and Richard Iannone (2020). rmarkdown: Dynamic Documents for R. R package version 2.3. URL, https://rmarkdown.rstudio.com.
+- Yihui Xie and J.J. Allaire and Garrett Grolemund (2018). R Markdown: The Definitive Guide. Chapman and Hall/CRC. ISBN 9781138359338. URL, https://bookdown.org/yihui/rmarkdown.
+- Office of Policy Department and Research (PD&R) (2016). Neighborhoods and Violate Crimes, Evidence Matters. URL, https://www.huduser.gov/portal/periodicals/em/summer16/highlight2.html.

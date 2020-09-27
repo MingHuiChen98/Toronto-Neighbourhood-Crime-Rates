@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>regression on Ming Hui Chen&#39;s website</title>
+    <link>/tags/regression/</link>
+    <description>Recent content in regression on Ming Hui Chen&#39;s website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 27 Sep 2020 21:13:14 -0500</lastBuildDate><atom:link href="/tags/regression/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The continuing growth of criminal rates in hot spots in Toronto has become an emerging problem for public safety.</title>
+      <link>/2020/09/27/the-continuing-growth-of-criminal-rates-in-hot-spots-in-toronto-has-become-an-emerging-problem-for-public-safety./</link>
+      <pubDate>Sun, 27 Sep 2020 21:13:14 -0500</pubDate>
+      
+      <guid>/2020/09/27/the-continuing-growth-of-criminal-rates-in-hot-spots-in-toronto-has-become-an-emerging-problem-for-public-safety./</guid>
+      <description>Authorship The paper is written by Ming Hui Chen.
+ Abstract Criminal rates in a neighborhood are closely associated with public safety. In this paper, we investigate the criminal rates in Toronto by neighborhoods, which is an observational study conducting by Toronto Police Services and released on September 18th, 2020. We found that a hot spot is more likely to have positive growth of criminal rates year by year, while the criminal counts of safer neighborhood are most likely declining.</description>
+    </item>
+    
+  </channel>
+</rss>
